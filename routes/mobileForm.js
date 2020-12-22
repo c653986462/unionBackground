@@ -59,7 +59,7 @@ router.get('/getStatus', function (req, res, next) {
       return
     }
     for (let i = 0; i < results.length; i++) {
-      if (utilsCommon.checkTime(results[i].time.split('T')[0])) {
+      if (utilsCommon.checkTime(results[i].time)) {
         if (results[i].submited + '' === '1') {
           res.send({
             code: 0,
