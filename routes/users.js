@@ -13,8 +13,6 @@ router.get('/getUsers', function (req, res, next) {
 
   //查询users表
   db.get("SELECT * FROM USERS", [], function (results, fields) {
-    console.log(results);
-
     res.send({
       code: 0,
       msg: '',
@@ -32,23 +30,38 @@ router.get('/getUsers', function (req, res, next) {
  * }
  * **/
 router.post('/addUsers', function (req, res, next) {
-  const params = req.body
-  console.log(req.body)
-  let keys = ""
-  for (let i in params) {
-    keys += i + ','
-  }
-  keys = keys.substr(0, keys.length - 1)
-  console.log(keys)
-  let sql = `insert into USERS (${keys}) value (?, ?, ?)`
+  const accpt = ['account', 'keywords', 'status']
   //查询users表
-  db.post(sql, [params.account, params.keywords, params.status], function (results, fields) {
-    console.log(results);
-
+  db.post('USERS', req.body, accpt, function (results, fields) {
     res.send({
       code: 0,
-      msg: '',
-      data: results
+      msg: '成功',
+      data: ''
+    });
+  })
+
+});
+
+router.put('/updateUsers/:id', function (req, res, next) {
+  const accpt = ['account', 'keywords', 'status']
+  //查询users表
+  db.put('users', req.body, accpt, Number(req.params.id), function () {
+    res.send({
+      code: 0,
+      msg: '成功',
+      data: ''
+    });
+  })
+
+});
+
+router.delete('/deleteUsers/:id', function (req, res, next) {
+  //查询users表
+  db.delete('users', Number(req.params.id), function () {
+    res.send({
+      code: 0,
+      msg: '成功',
+      data: ''
     });
   })
 
