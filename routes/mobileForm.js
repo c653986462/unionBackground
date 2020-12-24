@@ -42,8 +42,8 @@ router.get('/getStatus', function (req, res, next) {
   let sql
   if (req.query.status + '' === '1') sql = 'ghgb'
   else if (req.query.status + '' === '2') sql = 'zgdb'
-  else if (req.query.status + '' === '3') sql = 'zgdb'
-  else if (req.query.status + '' === '4') sql = 'zgdb'
+  else if (req.query.status + '' === '3') sql = 'shry'
+  else if (req.query.status + '' === '4') sql = 'ckjd'
   //查询users表
   db.get(sql, req.query, ['account'], function (results, fields) {
     if (!results.length) {
