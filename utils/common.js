@@ -33,7 +33,6 @@ module.exports = {
       return dates
     }
     const week = getDates()
-    console.log(week)
     if (week.indexOf(time) > -1) {
       return true
     }

@@ -61,11 +61,10 @@ router.post('/upload', function (req, res, next) {
   try {
     let form = new multiparty.Form({ uploadDir: './public/images' })
     form.parse(req, function (err, fields, file) {
-      console.log(file.data[0].path);
       res.send({
         code: 0,
         msg: '',
-        data: 'http://' + ip + ':3000/' + file.data[0].path
+        data: 'http:\/\/' + ip + ':3000/' + file.data[0].path.replace(/\\/, '/')
       });
     })
   } catch (err) {
