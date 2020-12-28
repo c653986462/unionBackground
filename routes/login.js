@@ -55,4 +55,50 @@ router.get('/mobilelogin', function (req, res, next) {
 
 });
 
+router.get('/backgroundlogin', function (req, res, next) {
+
+  if (!req.query.account || !req.query.keywords) {
+    res.send({
+      code: 3,
+      msg: '请输入账号密码'
+    });
+    return
+  }
+  db.get("backgroundusers", req.query, ['account'], function (results, fields) {
+    if (fields === 1) {
+      res.send({
+        code: 10001,
+        msg: results
+      });
+      return
+    }
+    if (results.length) {
+      for (let i = 0; i < results.length; i++) {
+        if (results[i].keywords == req.query.keywords) {
+          res.send({
+            code: 0,
+            msg: '成功',
+            data: {
+              authority: results[i].authority,
+              id: results[i].id,
+              account: results[i].account,
+            }
+          });
+          return
+        }
+      }
+      res.send({
+        code: 1,
+        msg: '密码错误'
+      });
+    } else {
+      res.send({
+        code: 2,
+        msg: '无该账号信息'
+      });
+    }
+  })
+
+});
+
 module.exports = router;
