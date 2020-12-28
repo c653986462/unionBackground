@@ -31,10 +31,38 @@ router.get('/getList', function (req, res, next) {
 
   //查询users表
   db.get('accident', req.query, ['account'], function (results, fields) {
+    const total = results.length
+    let rlt = []
+    if (req.query.limit && req.query.current) {
+      if (req.query.current > Math.ceil(total / req.query.limit)) {
+        res.send({
+          code: 1,
+          msg: '无当前页',
+          data: null
+        });
+        return
+      }
+      res.send({
+        code: 0,
+        msg: '',
+        data: {
+          total: total,
+          current: req.query.current,
+          totalpage: Math.ceil(total / req.query.limit),
+          list: results.slice(req.query.limit * (req.query.current - 1), req.query.limit * req.query.current)
+        }
+      });
+      return
+    }
     res.send({
       code: 0,
       msg: '',
-      data: results
+      data: {
+        total: total,
+        current: null,
+        totalpage: null,
+        list: results
+      }
     });
     return
   }, err => {
