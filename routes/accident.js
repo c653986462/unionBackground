@@ -49,7 +49,7 @@ router.get('/getList', function (req, res, next) {
           total: total,
           current: req.query.current,
           totalpage: Math.ceil(total / req.query.limit),
-          list: results.slice(req.query.limit * (req.query.current - 1), req.query.limit * req.query.current)
+          list: results.reverse().slice(req.query.limit * (req.query.current - 1), req.query.limit * req.query.current)
         }
       });
       return
@@ -61,7 +61,7 @@ router.get('/getList', function (req, res, next) {
         total: total,
         current: null,
         totalpage: null,
-        list: results
+        list: results.reverse()
       }
     });
     return
